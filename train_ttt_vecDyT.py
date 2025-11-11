@@ -5,7 +5,7 @@ from torch import nn
 from torch.utils.data import DataLoader 
 from torchvision import datasets 
 from torchvision.transforms import ToTensor, Normalize, RandomCrop, RandomHorizontalFlip, Compose 
-from ttt import TTTM
+from ttt_vecDyT import TTTM
 
 
 
