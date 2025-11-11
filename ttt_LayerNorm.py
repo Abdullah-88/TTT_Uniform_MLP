@@ -1,11 +1,7 @@
 import torch
 from torch import nn, Tensor
 from typing import List
-import math
-from torch.autograd import Variable
-from collections import OrderedDict
-import numpy as np
-import torch.nn.functional as F
+
 
 
 
@@ -51,12 +47,6 @@ class LocalMappingUnit(nn.Module):
 
    
 
-
-
-
-    
-
-
 class TTT(nn.Module):
    
 
@@ -64,7 +54,6 @@ class TTT(nn.Module):
         super(TTT, self).__init__()
        
      
-
        
         self.mapping = MLP(dim)
         
@@ -96,7 +85,6 @@ class TTT(nn.Module):
 
 
     	
-
 class GlobalMappingUnit(nn.Module):
     def __init__(self,dim):
         super().__init__()
