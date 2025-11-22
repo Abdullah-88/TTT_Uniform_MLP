@@ -72,7 +72,8 @@ class TTT(nn.Module):
 
        
         self.mapping = MLP(dim)
-        
+        self.state =  nn.Linear(dim,dim,bias=False)
+        self.probe =  nn.Linear(dim,dim,bias=False)
         
        
     def forward(self, in_seq: Tensor) -> Tensor:
@@ -82,7 +83,7 @@ class TTT(nn.Module):
         
         for seq in range(in_seq.size(1)):
             
-            state = in_seq[:,seq,:]
+            state = self.state(in_seq[:,seq,:])
             train_view = state + torch.randn_like(state)
             label_view = state
             loss = nn.functional.mse_loss(self.mapping(train_view), label_view)
@@ -92,8 +93,8 @@ class TTT(nn.Module):
                 for param, grad in zip(self.mapping.parameters(), grads):
               
                     param -= 0.01 * grad
-            pred = self.mapping(in_seq[:,seq,:]).detach()
-            outs.append(pred)
+            probe = self.probe(self.mapping(in_seq[:,seq,:]).detach())
+            outs.append(probe)
         out = torch.stack(outs, dim=1)
         
         return out
@@ -102,6 +103,8 @@ class TTT(nn.Module):
 
     	
 
+        
+    	
 class GlobalMappingUnit(nn.Module):
     def __init__(self,dim):
         super().__init__()
@@ -167,6 +170,12 @@ class TTTM(nn.Module):
     def forward(self, x):
        
         return self.model(x)
+
+
+
+
+
+
 
 
 
